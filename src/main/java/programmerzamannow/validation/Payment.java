@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.LuhnCheck;
 import org.hibernate.validator.constraints.Range;
 import programmerzamannow.validation.group.CreditCardPaymentGroup;
 import programmerzamannow.validation.group.VirtualAccountPaymentGroup;
+import programmerzamannow.validation.payload.EmailErrorPayload;
 
 public class Payment {
 
@@ -22,7 +23,8 @@ public class Payment {
             message = "amount can not blank")
     private Long amount;
 
-    @LuhnCheck(groups = {CreditCardPaymentGroup.class}, message = "invalid credit card")
+    @LuhnCheck(groups = {CreditCardPaymentGroup.class}, message = "invalid credit card",
+    payload = {EmailErrorPayload.class})
     @NotBlank(groups = {CreditCardPaymentGroup.class}, message = "credit card can not blank")
     private String creditCard;
 
