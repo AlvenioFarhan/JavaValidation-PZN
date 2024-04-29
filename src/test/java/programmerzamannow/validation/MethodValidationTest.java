@@ -39,7 +39,7 @@ public class MethodValidationTest extends AbstractValidatorTest {
 
         Method method = Person.class.getMethod("fullName");
 
-        Set<ConstraintViolation<Person>> violations = executableValidator.validateConstructorReturnValue(person, method, returnValue);
+        Set<ConstraintViolation<Person>> violations = executableValidator.validateReturnValue(person, method, returnValue);
 
         for (ConstraintViolation<Person> violation : violations) {
             System.out.println(violation.getPropertyPath());

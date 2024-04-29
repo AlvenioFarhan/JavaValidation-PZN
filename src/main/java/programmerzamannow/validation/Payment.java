@@ -3,6 +3,7 @@ package programmerzamannow.validation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.groups.ConvertGroup;
 import jakarta.validation.groups.Default;
 import org.hibernate.validator.constraints.LuhnCheck;
@@ -14,17 +15,19 @@ import programmerzamannow.validation.payload.EmailErrorPayload;
 public class Payment {
 
     @NotBlank(groups = {CreditCardPaymentGroup.class, VirtualAccountPaymentGroup.class},
-            message = "order id can not blank")
+            message = "{order.id.notblank}")
+    @Size(groups = {CreditCardPaymentGroup.class, VirtualAccountPaymentGroup.class},
+            min = 1, max = 10, message = "{order.id.size}")
     private String orderId;
 
     @Range(groups = {CreditCardPaymentGroup.class, VirtualAccountPaymentGroup.class},
-            min = 10_000L, max = 100_000_000L, message = "amount must between 10.000 and 100.000.000")
+            min = 10_000L, max = 100_000_000L, message = "{order.amount.range}")
     @NotNull(groups = {CreditCardPaymentGroup.class, VirtualAccountPaymentGroup.class},
             message = "amount can not blank")
     private Long amount;
 
     @LuhnCheck(groups = {CreditCardPaymentGroup.class}, message = "invalid credit card",
-    payload = {EmailErrorPayload.class})
+            payload = {EmailErrorPayload.class})
     @NotBlank(groups = {CreditCardPaymentGroup.class}, message = "credit card can not blank")
     private String creditCard;
 
